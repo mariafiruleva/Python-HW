@@ -8,28 +8,40 @@ class Dna(str):
             if len(all_nucleotides) == 0:
                 self.sequence = dna_seq.upper()
             else:
-                raise ValueError(dna_seq + " is inapropriate DNA sequence because it contains " + repr(all_nucleotides))
+                raise ValueError(
+                    "Your sequence is inapropriate DNA sequence because it contains " + repr(all_nucleotides))
         else:
             raise ValueError('Your sequence is empty')
 
     def gc(self):
-        gc_content = ((self.sequence.count('C') + self.sequence.count('G')) * 100) / len(self.sequence)
-        return gc_content
+        return ((self.sequence.count('C') + self.sequence.count('G')) * 100) / len(self.sequence)
 
     def reverse_complement(self):
         complementarity = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', 'U': 'A'}
         reversed_seq = list()
         for i in self.sequence:
             reversed_seq.append(complementarity[i])
-        return ''.join(reversed_seq)
+            if type(self) is Dna:
+                return ''.join(reversed(reversed_seq))
+            else:
+                return ''.join(reversed(reversed_seq)).replace('T', 'U')
 
     def transcribe(self):
-        complementarity = {'T': 'A', 'C': 'G', 'G': 'C', 'A': 'U'}
-        rna_seq = list()
-        for i in self.sequence:
-            rna_seq.append(complementarity[i])
-        rna_object = Rna(''.join(rna_seq))
-        return rna_object
+        if type(self) is Rna:
+            raise ValueError('Your sequence is RNA, so it can not be transcribed')
+        else:
+            seq_type = input("Write type of your sequence (sense strand or antisense strand) from 5' to 3': ")
+            if seq_type == "antisense strand":
+                complementarity = {'T': 'A', 'C': 'G', 'G': 'C', 'A': 'U'}
+                rna_seq = list()
+                for nucl in self.sequence:
+                    rna_seq.append(complementarity[nucl])
+                rna_object = Rna(''.join(reversed(rna_seq)))
+                return rna_object
+            elif seq_type == "sense strand":
+                return self.sequence.replace('T', 'U')
+            else:
+                raise ValueError('Your write the incorrect type of your sequence')
 
 
 class Rna(Dna):
@@ -42,7 +54,7 @@ class Rna(Dna):
             if len(all_nucleotides) == 0:
                 self.sequence = rna_seq.upper()
             else:
-                raise ValueError(rna_seq + " is inapropriate RNA sequence because it contains " + repr(all_nucleotides))
+                raise ValueError(
+                    "Your sequence is inapropriate RNA sequence because it contains " + repr(all_nucleotides))
         else:
             raise ValueError('Your sequence is empty')
-
