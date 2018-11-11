@@ -19,7 +19,7 @@ class Dna(str):
     def reverse_complement(self):
         complementarity = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', 'U': 'A'}
         reversed_seq = list()
-        for i in self.sequence:
+        for nucl in self.sequence:
             reversed_seq.append(complementarity[i])
             if type(self) is Dna:
                 return ''.join(reversed(reversed_seq))
