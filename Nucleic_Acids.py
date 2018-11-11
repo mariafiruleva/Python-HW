@@ -1,7 +1,7 @@
 class Dna(str):
     def __init__(self, dna_seq):
         all_nucleotides = set()
-        if len(dna_seq) != 0:
+        if dna_seq:
             for nucl in dna_seq.upper():
                 if nucl not in 'ATGC':
                     all_nucleotides.add(nucl)
