@@ -19,12 +19,12 @@ class Dna(str):
     def reverse_complement(self):
         complementarity = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', 'U': 'A'}
         reversed_seq = list()
-        for nucl in self.sequence:
+        for i in self.sequence:
             reversed_seq.append(complementarity[i])
-            if type(self) is Dna:
-                return ''.join(reversed(reversed_seq))
-            else:
-                return ''.join(reversed(reversed_seq)).replace('T', 'U')
+        if type(self) is Dna:
+            return Dna(''.join(reversed(reversed_seq)))
+        else:
+            return Rna(''.join(reversed(reversed_seq)).replace('T', 'U'))
 
     def transcribe(self):
         if type(self) is Rna:
@@ -39,7 +39,7 @@ class Dna(str):
                 rna_object = Rna(''.join(reversed(rna_seq)))
                 return rna_object
             elif seq_type == "sense strand":
-                return self.sequence.replace('T', 'U')
+                return Rna(self.sequence.replace('T', 'U'))
             else:
                 raise ValueError('Your write the incorrect type of your sequence')
 
